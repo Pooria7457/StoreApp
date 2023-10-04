@@ -2,10 +2,17 @@ package com.ebrahimipooria.storeapp
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.ebrahimipooria.storeapp.databinding.ActivityMainBinding
 
 class HomeActivity : AppCompatActivity() {
+
+    private lateinit var binding: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_home)
+
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
     }
 }

@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -28,24 +29,30 @@ class MainActivity : AppCompatActivity() {
         val userNameText = edtUserName.text
         val passwordText = edtPassword.text
 
-        val loginModel = LoginModel(userNameText.toString(),passwordText.toString())
 
         val retrofit = RetrofitClient.getInstance()
         val apiInterface : ApiInterface = retrofit.create(ApiInterface::class.java)
 
         btnLogin.setOnClickListener {
+            val loginModel = LoginModel(userNameText.toString(),passwordText.toString())
 
             if(userNameText.toString().isEmpty()||passwordText.toString().isEmpty()){
                 Toast.makeText(this@MainActivity,"Enter userName and password",Toast.LENGTH_SHORT).show()
             }else{
-
+                Log.e("KIAA", "onCreate: "+Gson().toJson(loginModel) )
                 apiInterface.userLogin(loginModel).enqueue(object : Callback<ResponseLoginModel>{
                     override fun onResponse(
                         call: Call<ResponseLoginModel>,
                         response: Response<ResponseLoginModel>
                     ) {
-                        val tokenId = response.body()!!.token
-                        Toast.makeText(this@MainActivity,tokenId,Toast.LENGTH_SHORT).show()
+                        if(response.isSuccessful){
+                            val tokenId = response.body()!!.token
+                            Toast.makeText(this@MainActivity,tokenId,Toast.LENGTH_SHORT).show()
+                        }else{
+                            Toast.makeText(this@MainActivity,"Error : "+response.message(),Toast.LENGTH_SHORT).show()
+
+                        }
+
                     }
 
                     override fun onFailure(call: Call<ResponseLoginModel>, t: Throwable) {

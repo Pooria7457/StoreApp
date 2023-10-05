@@ -1,11 +1,22 @@
 package Fragments
 
+import Adapters.ProductsAdapter
+import Api.ApiInterface
+import Api.RetrofitClient
+import Model.ProductsModel
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ebrahimipooria.storeapp.R
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -21,6 +32,10 @@ private const val ARG_PARAM2 = "param2"
 class HomeFragment : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
+    var list: ArrayList<ProductsModel> = ArrayList()
+    lateinit var apiInterface: ApiInterface
+    lateinit var recyclerView: RecyclerView
+    lateinit var productsAdapter: ProductsAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,6 +54,7 @@ class HomeFragment : Fragment() {
     }
 
     companion object {
+        
         /**
          * Use this factory method to create a new instance of
          * this fragment using the provided parameters.
@@ -57,4 +73,36 @@ class HomeFragment : Fragment() {
                 }
             }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val retrofit = RetrofitClient.getInstance()
+        apiInterface = retrofit.create(ApiInterface::class.java)
+        recyclerView = view.findViewById(R.id.rv_HomeFragment)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        apiInterface.productsList().enqueue(object : Callback<List<ProductsModel>>{
+            override fun onResponse(
+                call: Call<List<ProductsModel>>,
+                response: Response<List<ProductsModel>>
+            ) {
+                for(i in response.body()!!){
+                    list.add(i)
+                }
+                productsAdapter = ProductsAdapter(context!!,list)
+                recyclerView.adapter = productsAdapter
+
+            }
+
+            override fun onFailure(call: Call<List<ProductsModel>>, t: Throwable) {
+                Toast.makeText(context,"Error : "+t.message,Toast.LENGTH_SHORT).show()
+                Log.e("Log", "onFailure: "+t.message)
+            }
+
+        } )
+
+
+    }
+
 }

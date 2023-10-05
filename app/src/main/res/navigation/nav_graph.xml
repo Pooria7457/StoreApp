@@ -3,11 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/blankFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
-        android:id="@+id/blankFragment"
-        android:name="Fragments.BlankFragment"
-        android:label="fragment_blank"
-        tools:layout="@layout/fragment_blank" />
+        android:id="@+id/homeFragment"
+        android:name="Fragments.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/categorizeFragment"
+        android:name="Fragments.CategorizeFragment"
+        android:label="fragment_categorize"
+        tools:layout="@layout/fragment_categorize" />
+    <fragment
+        android:id="@+id/cardFragment"
+        android:name="Fragments.CardFragment"
+        android:label="fragment_card"
+        tools:layout="@layout/fragment_card" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="Fragments.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

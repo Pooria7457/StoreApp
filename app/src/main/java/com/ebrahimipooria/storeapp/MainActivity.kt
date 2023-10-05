@@ -9,9 +9,6 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.ebrahimipooria.storeapp.databinding.ActivityMainBinding
@@ -32,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         sharedPreferences = getSharedPreferences("login", MODE_PRIVATE)
         val sharedToken = sharedPreferences.getString("token", "")
         if (sharedToken != "") {
-            val intent = Intent(this@MainActivity,HomeActivity::class.java)
+            val intent = Intent(this@MainActivity,ProductsActivity::class.java)
             startActivity(intent)
         }
 
@@ -66,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                             val editor = sharedPreferences.edit()
                             editor.putString("token", tokenId)
                             editor.apply()
-                            val intent = Intent(this@MainActivity,HomeActivity::class.java)
+                            val intent = Intent(this@MainActivity,ProductsActivity::class.java)
                             startActivity(intent)
                         }else{
                             Toast.makeText(this@MainActivity,"Username Or Password Is Wrong",Toast.LENGTH_SHORT).show()

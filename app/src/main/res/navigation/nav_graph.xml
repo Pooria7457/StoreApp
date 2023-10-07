@@ -25,4 +25,9 @@
         android:name="Fragments.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/singleProductFragment"
+        android:name="Fragments.SingleProductFragment"
+        android:label="fragment_single_product"
+        tools:layout="@layout/fragment_single_product" />
 </navigation>

@@ -7,6 +7,7 @@ import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Path
 
 interface ApiInterface {
 
@@ -17,6 +18,10 @@ interface ApiInterface {
 
     @GET("/products")
     fun productsList() :Call <List<ProductsModel>>
+
+
+    @GET("/products/{id}")
+    fun getSingleProduct(@Path("id") id: Int): Call<ProductsModel>
 
 
 }

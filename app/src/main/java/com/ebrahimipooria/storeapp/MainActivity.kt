@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity() {
         if (sharedToken != "") {
             val intent = Intent(this@MainActivity,ProductsActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -65,6 +66,7 @@ class MainActivity : AppCompatActivity() {
                             editor.apply()
                             val intent = Intent(this@MainActivity,ProductsActivity::class.java)
                             startActivity(intent)
+                            finish()
                         }else{
                             Toast.makeText(this@MainActivity,"Username Or Password Is Wrong",Toast.LENGTH_SHORT).show()
                         }

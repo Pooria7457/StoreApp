@@ -8,6 +8,7 @@ import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface ApiInterface {
 
@@ -17,11 +18,16 @@ interface ApiInterface {
     ): Call<ResponseLoginModel>
 
     @GET("/products")
-    fun productsList() :Call <List<ProductsModel>>
+    fun productsList(): Call <List<ProductsModel>>
 
 
     @GET("/products/{id}")
     fun getSingleProduct(@Path("id") id: Int): Call<ProductsModel>
 
+    @GET("/products/categories")
+    fun categories(): Call<ArrayList<String>>
+
+    @GET("/products/category/{type}")
+    fun categoriesList(@Path("type") name: String?): Call<List<ProductsModel>>
 
 }

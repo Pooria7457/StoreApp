@@ -1,6 +1,8 @@
 package Adapters
 
 
+import Fragments.CategoriesListFragment
+import Fragments.HomeFragment
 import Fragments.SingleProductFragment
 import Model.ProductsModel
 import android.content.Context
@@ -12,7 +14,9 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.ebrahimipooria.storeapp.R
 import com.squareup.picasso.Picasso
@@ -77,9 +81,19 @@ class ProductsAdapter (var context: Context, productsData: ArrayList<ProductsMod
             bundle.putString("desc", productsData[adapterPosition].description)
             bundle.putString("image", productsData[adapterPosition].image)
             singleProductFragment.setArguments(bundle)
-            transaction.replace(R.id.fl_Home,singleProductFragment)
-            transaction.addToBackStack(null)
-            transaction.commit()
+            val homeFragment = HomeFragment()
+            val categoriesListFragment = CategoriesListFragment()
+            if(productsData.size==20) {
+                transaction.replace(R.id.fl_Home, singleProductFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }else{
+                transaction.replace(R.id.fl_categorize, singleProductFragment)
+                transaction.addToBackStack(null)
+                transaction.commit()
+            }
+
+
 
 
         }

@@ -30,4 +30,9 @@
         android:name="Fragments.SingleProductFragment"
         android:label="fragment_single_product"
         tools:layout="@layout/fragment_single_product" />
+    <fragment
+        android:id="@+id/categoriesListFragment"
+        android:name="Fragments.CategoriesListFragment"
+        android:label="fragment_categories_list"
+        tools:layout="@layout/fragment_categories_list" />
 </navigation>

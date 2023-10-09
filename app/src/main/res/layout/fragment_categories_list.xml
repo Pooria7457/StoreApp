@@ -3,12 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fl_categorize"
-    tools:context="Fragments.CategorizeFragment">
+    android:layoutDirection="ltr"
+    android:background="@color/white"
+    tools:context="Fragments.CategoriesListFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_CategoriesFragment"
+        android:id="@+id/rv_CategoriesList"
         android:layout_marginBottom="94dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>

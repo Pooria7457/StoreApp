@@ -1,11 +1,23 @@
 package Fragments
 
+import Adapters.CategoriesAdapter
+import Adapters.ProductsAdapter
+import Api.ApiInterface
+import Api.RetrofitClient
+import Model.ProductsModel
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.ebrahimipooria.storeapp.R
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -23,6 +35,10 @@ class CategorizeFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+    var list: ArrayList<String> = ArrayList()
+    lateinit var apiInterface: ApiInterface
+    lateinit var recyclerView: RecyclerView
+    lateinit var categoriesAdapter: CategoriesAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,4 +75,34 @@ class CategorizeFragment : Fragment() {
                 }
             }
     }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val retrofit = RetrofitClient.getInstance()
+        apiInterface = retrofit.create(ApiInterface::class.java)
+        recyclerView = view.findViewById(R.id.rv_CategoriesFragment)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+
+        apiInterface.categories().enqueue(object : Callback<ArrayList<String>>{
+            override fun onResponse(
+                call: Call<ArrayList<String>>,
+                response: Response<ArrayList<String>>
+            ) {
+                for(i in response.body()!!){
+                    list.add(i)
+                }
+                categoriesAdapter = CategoriesAdapter(context!!,list)
+                recyclerView.adapter = categoriesAdapter
+            }
+
+            override fun onFailure(call: Call<ArrayList<String>>, t: Throwable) {
+                Toast.makeText(context,"Error : "+t.message, Toast.LENGTH_SHORT).show()
+                Log.e("Log", "onFailure: "+t.message)
+            }
+
+        })
+
+    }
+
 }

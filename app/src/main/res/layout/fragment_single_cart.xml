@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="Fragments.SingleCartFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_SingleCart_User"
+            android:layout_margin="8dp"
+            android:src="@drawable/baseline_supervised_user_circle_24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <TextView
+            android:id="@+id/txt_SingleCart_UserId"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@id/img_SingleCart_User"
+            android:textColor="@color/black"
+            android:text="UserId :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/img_SingleCart_Date"
+            android:layout_below="@id/img_SingleCart_User"
+            android:layout_margin="8dp"
+            android:src="@drawable/baseline_date_range_24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <TextView
+            android:id="@+id/txt_SingleCart_Date"
+            android:layout_below="@id/img_SingleCart_User"
+            android:layout_margin="20dp"
+            android:layout_toRightOf="@id/img_SingleCart_Date"
+            android:textColor="@color/black"
+            android:text="Date :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/img_SingleCart_Products"
+            android:layout_below="@id/img_SingleCart_Date"
+            android:layout_margin="8dp"
+            android:src="@drawable/baseline_shopping_cart_24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <TextView
+            android:id="@+id/txt_SingleCart_ProductId"
+            android:layout_below="@id/img_SingleCart_Date"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/img_SingleCart_Products"
+            android:textColor="@color/black"
+            android:text="ProductId :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/txt_SingleCart_Quantity"
+            android:layout_below="@id/txt_SingleCart_ProductId"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/img_SingleCart_Products"
+            android:textColor="@color/black"
+            android:text="Quantity :"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

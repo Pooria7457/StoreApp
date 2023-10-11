@@ -1,5 +1,6 @@
 package Api
 
+import Model.CartModel
 import Model.LoginModel
 import Model.ProductsModel
 import Model.ResponseLoginModel
@@ -29,5 +30,11 @@ interface ApiInterface {
 
     @GET("/products/category/{type}")
     fun categoriesList(@Path("type") name: String?): Call<List<ProductsModel>>
+
+    @GET("/carts")
+    fun getCarts(): Call<List<CartModel>>
+
+    @GET("/carts/{id}")
+    fun getSingleCart(@Path("id") id: Int): Call<CartModel>
 
 }

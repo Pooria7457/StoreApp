@@ -40,4 +40,9 @@
         android:name="Fragments.SingleCartFragment"
         android:label="fragment_single_cart"
         tools:layout="@layout/fragment_single_cart" />
+    <fragment
+        android:id="@+id/showProfileFragment"
+        android:name="Fragments.ShowProfileFragment"
+        android:label="fragment_show_profile"
+        tools:layout="@layout/fragment_show_profile" />
 </navigation>

@@ -45,4 +45,14 @@
         android:name="Fragments.ShowProfileFragment"
         android:label="fragment_show_profile"
         tools:layout="@layout/fragment_show_profile" />
+    <fragment
+        android:id="@+id/singleProductCartFragment"
+        android:name="Fragments.SingleProductCartFragment"
+        android:label="fragment_single_product_cart"
+        tools:layout="@layout/fragment_single_product_cart" />
+    <fragment
+        android:id="@+id/cartOtherShopesFragment"
+        android:name="Fragments.CartOtherShopesFragment"
+        android:label="fragment_cart_other_shopes"
+        tools:layout="@layout/fragment_cart_other_shopes" />
 </navigation>

@@ -9,11 +9,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import com.ebrahimipooria.storeapp.MyCartDatabase
 import com.ebrahimipooria.storeapp.R
 import com.squareup.picasso.Picasso
 import retrofit2.Call
@@ -27,14 +25,13 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [SingleProductFragment.newInstance] factory method to
+ * Use the [SingleProductCartFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class SingleProductFragment : Fragment() {
+class SingleProductCartFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    var myCartDatabase: MyCartDatabase? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,7 +46,7 @@ class SingleProductFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_single_product, container, false)
+        return inflater.inflate(R.layout.fragment_single_product_cart, container, false)
     }
 
     companion object {
@@ -59,12 +56,12 @@ class SingleProductFragment : Fragment() {
          *
          * @param param1 Parameter 1.
          * @param param2 Parameter 2.
-         * @return A new instance of fragment SingleProductFragment.
+         * @return A new instance of fragment SingleProductCartFragment.
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            SingleProductFragment().apply {
+            SingleProductCartFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
@@ -75,14 +72,13 @@ class SingleProductFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val txtTitle = view.findViewById<TextView>(R.id.txt_Single_title)
-        val txtPrice = view.findViewById<TextView>(R.id.txt_Single_Price)
-        val txtCategory = view.findViewById<TextView>(R.id.txt_Single_Category)
-        val txtRate = view.findViewById<TextView>(R.id.txt_Single_Rate)
-        val txtCount = view.findViewById<TextView>(R.id.txt_Single_Count)
-        val txtDesc = view.findViewById<TextView>(R.id.txt_Single_Description)
-        val imgSingle = view.findViewById<ImageView>(R.id.img_Single)
-        val btnAdd = view.findViewById<Button>(R.id.btn_Single_Add)
+        val txtTitle = view.findViewById<TextView>(R.id.txt_SingleProductCart_title)
+        val txtPrice = view.findViewById<TextView>(R.id.txt_SingleProductCart_Price)
+        val txtCategory = view.findViewById<TextView>(R.id.txt_SingleProductCart_Category)
+        val txtRate = view.findViewById<TextView>(R.id.txt_SingleProductCart_Rate)
+        val txtCount = view.findViewById<TextView>(R.id.txt_SingleProductCart_Count)
+        val txtDesc = view.findViewById<TextView>(R.id.txt_SingleProductCart_Description)
+        val imgSingle = view.findViewById<ImageView>(R.id.img_SingleProductCart)
 
         val id : Int? = getArguments()?.getInt("id")
         val title : String? = getArguments()?.getString("title")
@@ -96,7 +92,7 @@ class SingleProductFragment : Fragment() {
         val retrofit = RetrofitClient.getInstance()
         val apiInterface = retrofit.create(ApiInterface::class.java)
 
-        apiInterface.getSingleProduct(id!!).enqueue(object : Callback<ProductsModel>{
+        apiInterface.getSingleProduct(id!!).enqueue(object : Callback<ProductsModel> {
             override fun onResponse(call: Call<ProductsModel>, response: Response<ProductsModel>) {
                 Picasso.get().load(image).into(imgSingle)
                 txtTitle.setText("Title : "+title)
@@ -114,12 +110,7 @@ class SingleProductFragment : Fragment() {
 
         })
 
-        myCartDatabase = MyCartDatabase(view.context)
 
-        btnAdd.setOnClickListener {
-            myCartDatabase!!.addInfo(id)
-            Toast.makeText(context,"This Product Added To Cart",Toast.LENGTH_SHORT).show()
-        }
 
     }
 

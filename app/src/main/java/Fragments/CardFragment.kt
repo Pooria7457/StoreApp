@@ -1,12 +1,10 @@
 package Fragments
 
-import Adapters.CartsAdapter
-import Adapters.ProductsAdapter
+import Adapters.CartProductsAdapter
 import Api.ApiInterface
 import Api.RetrofitClient
-import Model.CartModel
-import Model.CartProductsModel
 import Model.ProductsModel
+import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -14,8 +12,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.cardview.widget.CardView
+import androidx.fragment.app.FragmentActivity
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.ebrahimipooria.storeapp.MyCartDatabase
 import com.ebrahimipooria.storeapp.R
 import retrofit2.Call
 import retrofit2.Callback
@@ -35,11 +37,12 @@ class CardFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    var list: ArrayList<CartModel> = ArrayList()
-    var cartProductList: ArrayList<CartProductsModel> = ArrayList()
+    var list: ArrayList<ProductsModel> = ArrayList()
     lateinit var apiInterface: ApiInterface
     lateinit var recyclerView: RecyclerView
-    lateinit var cartsAdapter: CartsAdapter
+    lateinit var cartProductsAdapter: CartProductsAdapter
+    var myCartDatabase : MyCartDatabase? = null
+    lateinit var productsId : ArrayList<Int>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,32 +83,57 @@ class CardFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val cardView = view.findViewById<CardView>(R.id.cv_FragmentCard)
+
         val retrofit = RetrofitClient.getInstance()
         apiInterface = retrofit.create(ApiInterface::class.java)
         recyclerView = view.findViewById(R.id.rv_CardFragment)
         recyclerView.layoutManager = LinearLayoutManager(context)
 
-        apiInterface.getCarts().enqueue(object : Callback<List<CartModel>>{
-            override fun onResponse(
-                call: Call<List<CartModel>>,
-                response: Response<List<CartModel>>
-            ) {
-                for(i in response.body()!!){
-                    for(x in i.products){
-                        cartProductList.add(x)
-                    }
-                    list.add(i)
+        productsId = ArrayList<Int>()
+        myCartDatabase = MyCartDatabase(view.context)
+        val cursor: Cursor = myCartDatabase!!.getInfos
+        if(myCartDatabase!=null) {
+            while (cursor.moveToNext()) {
+                if (!cursor.isAfterLast) {
+                    productsId.remove(cursor.getInt(1))
+                    productsId.add(cursor.getInt(1))
+                    apiInterface.productsList().enqueue(object : Callback<List<ProductsModel>>{
+                        override fun onResponse(
+                            call: Call<List<ProductsModel>>,
+                            response: Response<List<ProductsModel>>
+                        ) {
+                            list.clear()
+                            for(i in response.body()!!){
+                                for (singleId in productsId) {
+                                    if (i.id.equals(singleId)) {
+                                        list.add(i)
+                                    }
+                                }
+                            }
+                            cartProductsAdapter = CartProductsAdapter(context!!,list)
+                            recyclerView.adapter = cartProductsAdapter
+
+                        }
+
+                        override fun onFailure(call: Call<List<ProductsModel>>, t: Throwable) {
+                            Toast.makeText(context,"Error : "+t.message,Toast.LENGTH_SHORT).show()
+                            Log.e("Log", "onFailure: "+t.message)
+                        }
+
+                    } )
                 }
-                cartsAdapter = CartsAdapter(context!!,list,cartProductList)
-                recyclerView.adapter = cartsAdapter
             }
+        }
 
-            override fun onFailure(call: Call<List<CartModel>>, t: Throwable) {
-                Toast.makeText(context,"Error : "+t.message, Toast.LENGTH_SHORT).show()
-                Log.e("Log", "onFailure: "+t.message)
-            }
-
-        })
+        cardView.setOnClickListener{
+            val manager = (context as FragmentActivity).supportFragmentManager
+            val transaction: FragmentTransaction = manager.beginTransaction()
+            val cartOtherShopesFragment = CartOtherShopesFragment()
+            transaction.replace(R.id.fl_Card,cartOtherShopesFragment)
+            transaction.addToBackStack(null)
+            transaction.commit()
+        }
 
     }
 

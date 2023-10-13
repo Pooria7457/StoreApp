@@ -73,7 +73,7 @@ class CartsAdapter (var context: Context, cartsData: ArrayList<CartModel>,
             bundle.putInt("productId",cartsProductData[adapterPosition].productId)
             bundle.putInt("quantity",cartsProductData[adapterPosition].quantity)
             singleCartFragment.setArguments(bundle)
-            transaction.replace(R.id.fl_Card,singleCartFragment)
+            transaction.replace(R.id.fl_OtherShop,singleCartFragment)
             transaction.addToBackStack(null)
             transaction.commit()
         }
